@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+        xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+    http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+        version="2.0">
+
+    <application>
+        <resource-bundle>
+            <base-name>kg.nurgazy.organization.management.i18n.global</base-name>
+            <var>text</var>
+        </resource-bundle>
+    </application>
+
+    <!-- Dao beans definitions-->
+    <managed-bean>
+        <managed-bean-name>employeeDao</managed-bean-name>
+        <managed-bean-class>kg.nurgazy.organization.management.repository.EmployeeDAO</managed-bean-class>
+        <managed-bean-scope>application</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>organizationDao</managed-bean-name>
+        <managed-bean-class>kg.nurgazy.organization.management.repository.OrganizationDAO</managed-bean-class>
+        <managed-bean-scope>application</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>fileDao</managed-bean-name>
+        <managed-bean-class>kg.nurgazy.organization.management.repository.FileDao</managed-bean-class>
+        <managed-bean-scope>application</managed-bean-scope>
+    </managed-bean>
+
+    <!-- Service beans definitions-->
+    <managed-bean>
+        <managed-bean-name>employeeService</managed-bean-name>
+        <managed-bean-class>kg.nurgazy.organization.management.service.impl.EmployeeServiceImpl</managed-bean-class>
+        <managed-bean-scope>application</managed-bean-scope>
+        <managed-property>
+            <property-name>employeeDAO</property-name>
+            <property-class>kg.nurgazy.organization.management.repository.EmployeeDAO</property-class>
+            <value>#{employeeDao}</value>
+        </managed-property>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>organizationService</managed-bean-name>
+        <managed-bean-class>kg.nurgazy.organization.management.service.impl.OrganizationServiceImpl</managed-bean-class>
+        <managed-bean-scope>application</managed-bean-scope>
+        <managed-property>
+            <property-name>organizationDAO</property-name>
+            <property-class>kg.nurgazy.organization.management.repository.OrganizationDAO</property-class>
+            <value>#{organizationDao}</value>
+        </managed-property>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>fileService</managed-bean-name>
+        <managed-bean-class>kg.nurgazy.organization.management.service.impl.FileServiceImpl</managed-bean-class>
+        <managed-bean-scope>application</managed-bean-scope>
+        <managed-property>
+            <property-name>fileDao</property-name>
+            <value>#{fileDao}</value>
+        </managed-property>
+    </managed-bean>
+
+    <!-- View Beans definitions-->
+    <managed-bean>
+        <managed-bean-name>organizationView</managed-bean-name>
+        <managed-bean-class>kg.nurgazy.organization.management.controller.view.OrganizationView</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>organizationService</property-name>
+            <property-class>kg.nurgazy.organization.management.service.impl.OrganizationServiceImpl</property-class>
+            <value>#{organizationService}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>fileService</property-name>
+            <value>#{fileService}</value>
+        </managed-property>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>organizationAddView</managed-bean-name>
+        <managed-bean-class>kg.nurgazy.organization.management.controller.view.OrganizationAddView</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>organizationService</property-name>
+            <value>#{organizationService}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>fileService</property-name>
+            <value>#{fileService}</value>
+        </managed-property>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>organizationEditView</managed-bean-name>
+        <managed-bean-class>kg.nurgazy.organization.management.controller.view.OrganizationEditView</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>organizationService</property-name>
+            <value>#{organizationService}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>fileService</property-name>
+            <value>#{fileService}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>employeeService</property-name>
+            <value>#{employeeService}</value>
+        </managed-property>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>employeeView</managed-bean-name>
+        <managed-bean-class>kg.nurgazy.organization.management.controller.view.EmployeeView</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>employeeService</property-name>
+            <value>#{employeeService}</value>
+        </managed-property>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>employeeAddView</managed-bean-name>
+        <managed-bean-class>kg.nurgazy.organization.management.controller.view.EmployeeAddView</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>employeeService</property-name>
+            <value>#{employeeService}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>organizationService</property-name>
+            <value>#{organizationService}</value>
+        </managed-property>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>fileDownloadView</managed-bean-name>
+        <managed-bean-class>kg.nurgazy.organization.management.controller.view.FileDownloadView</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>employeeEditView</managed-bean-name>
+        <managed-bean-class>kg.nurgazy.organization.management.controller.view.EmployeeEditView</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>organizationService</property-name>
+            <value>#{organizationService}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>employeeService</property-name>
+            <value>#{employeeService}</value>
+        </managed-property>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>licenseValidator</managed-bean-name>
+        <managed-bean-class>kg.nurgazy.organization.management.controller.validator.LicenseValidator</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>organizationService</property-name>
+            <value>#{organizationService}</value>
+        </managed-property>
+    </managed-bean>
+
+
+</faces-config>
