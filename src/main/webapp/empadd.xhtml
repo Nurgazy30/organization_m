@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <title>Информационная система</title>
+</h:head>
+<h:body>
+    <ui:include src="template/menu.xhtml" />
+    <h:form><div class="card">
+
+        <p:growl />
+        <p:panelGrid columns="3"
+                     columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                     layout="grid"
+                     styleClass="ui-panelgrid-blank ui-fluid"
+                     style="border:0px none; background-color:transparent;width:70rem;">
+
+
+            <f:facet name="header">Данные Сотрудника</f:facet>
+
+            <p:outputLabel for="@next" value="ФИО сотрудника"/>
+            <p:inputText id="full_name" required="true" value="#{employeeAddView.employee.fullName}"
+                         requiredMessage="Введите данные!" validatorMessage="Длина поля не менее 10 символов.">
+                <f:validateLength minimum="10"/></p:inputText>
+            <p:message for="full_name"/>
+
+            <p:outputLabel  for="@next" value="Должность сотрудника"/>
+            <p:inputText id="posit" required="true" value="#{employeeAddView.employee.position}"
+                         requiredMessage="Введите данные!" validatorMessage="Длина поля не менее 5 символов.">
+                <f:validateLength minimum="5" /></p:inputText>
+            <p:message for="posit" />
+
+            <p:outputLabel for="@next" value="Банковские реквизиты"/>
+            <p:inputText id="account" required="true" value="#{employeeAddView.employee.bankAccount}"
+                         requiredMessage="Введите данные!" validatorMessage="Длина поля не менее 9 символов." >
+                <f:validateLength minimum="9" /></p:inputText>
+            <p:message for="account"/>
+
+
+            <p:outputLabel value="Организация"/>
+            <p:selectOneMenu id="labeled" value="#{employeeAddView.selectedOrganization}"
+                             alwaysDisplayLabel="true" required="true"
+            requiredMessage="(Нет организации в базе) Добавтьте организацию в базу!">
+                <f:selectItems value="#{employeeAddView.organizationMap.keySet()}"/>
+            </p:selectOneMenu>
+
+
+        </p:panelGrid>
+
+
+    </div>
+        <p:panelGrid columns="3" styleClass="ui-panelgrid-blank ui-fluid"
+                     style="border:0px none; background-color:transparent;">
+
+            <f:facet name="header">Контактные данные</f:facet>
+
+
+            <p:outputLabel for="@next" value="Адрес"/>
+            <p:inputText id="address" required="true" value="#{employeeAddView.employee.address}"
+                         requiredMessage="Введите данные!" />
+            <p:message for="address"/>
+
+            <p:outputLabel for="@next" value="Электронная почта"/>
+            <p:inputText id="email" required="true" value="#{employeeAddView.employee.email}"
+                         requiredMessage="Введите данные" validatorMessage="Неверный формат email">
+                <f:validateRegex
+                        pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /></p:inputText>
+            <p:message for="email"/>
+
+            <p:outputLabel for="@next" value="Рабочий Телефон"/>
+            <p:inputMask  value="#{employeeAddView.employee.workTelNumber}" mask="(0999) 99-99-99" validateMask="true" />
+            <h:panelGroup/>
+
+            <p:outputLabel for="@next" value="Мобильный Телефон"/>
+            <p:inputMask id="mob" required="true" value="#{employeeAddView.employee.mobTelNumber}" mask="(0999) 99-99-99" validateMask="true"
+                         requiredMessage="Введите данные"/>
+            <p:message for="mob"/>
+
+            <p:outputLabel for="@next" value="Домашний Телефон"/>
+            <p:inputMask  value="#{employeeAddView.employee.homeTelNumber}" mask="(0999) 99-99-99" validateMask="true" />
+
+        </p:panelGrid>
+        <div class='card'>
+            <style>button.ui-button {margin-right: .5rem; margin-top: .5rem;}</style>
+            <p:commandButton value="Сохранить" styleClass="mr-2" style="width: auto"
+                             validateClient="false" action="#{employeeAddView.formHandle}" update="@form"/>
+            <p:commandButton value="Очистить поля" styleClass="mr-2" style="width: auto">
+                <p:ajax update="@form" resetValues="true"/></p:commandButton>
+        </div>
+    </h:form>
+
+</h:body>
+</html>

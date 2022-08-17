@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <title>Информационная система</title>
+</h:head>
+<h:body>
+    <ui:include src="template/menu.xhtml" />
+
+
+    <h:form id="form">
+
+        <p:growl id="msg"/>
+
+        <p:panelGrid columns="3"
+                     columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                     layout="grid"
+                     styleClass="ui-panelgrid-blank ui-fluid"
+                     style="border:0px none; background-color:transparent;width:50rem">
+
+
+            <f:facet name="header">Данные Организации</f:facet>
+
+            <p:outputLabel for="@next" value="Название Организации"/>
+            <p:inputText id="org" required="true" value="#{organizationAddView.organization.organizationName}"
+                         requiredMessage="Поле не должно быть пустым!" validatorMessage="Длина поля должна быть не менее 3 символов">
+                <f:validateLength minimum="3"/></p:inputText>
+            <p:message for="org"/>
+
+            <p:outputLabel for="@next" value="ФИО руководителя"/>
+            <p:inputText id="name" required="true" value="#{organizationAddView.organization.directorFullName}"
+                         requiredMessage="Поле не должно быть пустым!" validatorMessage="Длина поля должна не менее 9 символов">
+                <f:validateLength minimum="9"/></p:inputText>
+            <p:message for="name"/>
+
+
+            <p:outputLabel for="@next" value="Правовая форма"/>
+            <p:selectOneMenu  value="#{organizationAddView.organization.propertyForm}" required="true">
+                <f:selectItems value="#{organizationAddView.propertyForms}" var="pform"
+                               itemValue="#{pform}" itemLabel="#{text['propertyForm.' += pform]}"/>
+            </p:selectOneMenu>
+            <h:panelGroup/>
+
+            <p:outputLabel for="@next" value="Форма собсвтенности"/>
+            <p:selectOneMenu  value="#{organizationAddView.organization.legalForm}" required="true">
+                <f:selectItems value="#{organizationAddView.legalForms}" var="legal"
+                               itemValue="#{legal}" itemLabel="#{text['legalForm.' += legal]}"/>
+            </p:selectOneMenu>
+            <h:panelGroup/>
+
+            <p:outputLabel for="@next" value="Номер лицензиии"/>
+            <p:inputText id="licNumber" required="true" value="#{organizationAddView.organization.licenseNumber}"
+                         requiredMessage="Поле не должно быть пустым!" >
+                <f:validator binding="#{licenseValidator}" /></p:inputText>
+            <p:message for="licNumber"/>
+
+            <p:outputLabel for="@next" value="Дата получения лицензиии"/>
+            <p:datePicker id="licDate" value="#{organizationAddView.organization.licenseDate}"
+                          monthNavigator="true" pattern="dd/MM/yyyy"
+                          yearNavigator="true"
+                          showWeek="true" required="true"
+                          requiredMessage="Выберите дату!"
+                          converterMessage="Неверный формат даты! Образец: 05/12/2022">
+            <f:convertDateTime pattern="dd/MM/yyyy" type="localDate"/></p:datePicker>
+            <p:message for="licDate"/>
+
+
+            <p:outputLabel for="@next" value="Номер свидетельства"/>
+            <p:inputText id="regNum" required="true" value="#{organizationAddView.organization.registrationNumber}"
+                         requiredMessage="Поле не должно быть пустым!"/>
+            <p:message for="regNum"/>
+
+            <p:outputLabel for="@next" value="Дата получения свидетельства"/>
+            <p:datePicker id="regDate" required="true" value="#{organizationAddView.organization.registrationDate}"
+                          monthNavigator="true" pattern="dd/MM/yyyy"
+                          yearNavigator="true"
+                          showWeek="true"
+                          requiredMessage="Выберите дату!"
+            converterMessage="Неверный формат даты! Образец: 05/12/2022">
+                <f:convertDateTime pattern="dd/MM/yyyy" type="localDate"/></p:datePicker>
+            <p:message for="regDate"/>
+
+        </p:panelGrid>
+        <div class="card">
+            <p:fileUpload label="Файлы для прикрепления" id="files" listener="#{organizationAddView.handleFilesUpload}"
+                          cancelLabel="Отмена" uploadLabel="Загрузить файлы" multiple="true"  sizeLimit="10000000"/></div>
+
+        <p:panelGrid columns="3">
+
+            <f:facet name="header">Контактные данные</f:facet>
+
+            <p:outputLabel for="@next" value="Адрес"/>
+            <p:inputText id="address" value="#{organizationAddView.organization.address}" required="true"
+                         requiredMessage="Поле не должно быть пустым!" validatorMessage="Длина поля должна не менее 9 символов">
+                <f:validateLength minimum="9"/></p:inputText>
+            <p:message for="address"/>
+
+            <p:outputLabel for="@next" value="Веб-сайт"/>
+            <p:inputText value="#{organizationAddView.organization.website}"/>
+            <h:panelGroup/>
+
+            <p:outputLabel for="@next" value="Телефон"/>
+            <p:inputMask id="tel"  value="#{organizationAddView.organization.telNumber}" mask="(0999) 99-99-99" validateMask="true" required="true"
+                         requiredMessage="Поле не должно быть пустым!"/>
+            <p:message for="tel" />
+
+            <p:outputLabel for="idReg" value="Факс"/>
+            <p:inputText id="idReg" value="#{organizationAddView.organization.fax}"/>
+        </p:panelGrid>
+        <div class='card'>
+            <style>button.ui-button {margin-right: .5rem; margin-top: .5rem;}</style>
+            <p:commandButton value="Сохранить" update="@form" styleClass="mr-2" style="width: auto"
+                             action="#{organizationAddView.formHandle}"/>
+
+            <p:commandButton value="Очистить все" styleClass="mr-2" style="width: auto">
+                <p:ajax update="@form" resetValues="true"/></p:commandButton>
+        </div>
+    </h:form>
+</h:body>
+</html>

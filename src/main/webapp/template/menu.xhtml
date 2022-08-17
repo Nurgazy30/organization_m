@@ -1,0 +1,26 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <div class="card">
+        <h:form>
+            <p:growl id="messages"/>
+            <p:menubar>
+                <p:submenu label="Организации" >
+                    <p:menuitem value="Добавить Организацию" url="orgadd.xhtml"/>
+                    <p:divider/>
+                    <p:menuitem value="Просмотр данных" url="orgview.xhtml"/>
+                    <p:menuitem value="Редактировать данные" url="orgedit.xhtml"/>
+                </p:submenu>
+                <p:submenu label="Сотрудники" >
+                    <p:menuitem value="Добавить Сотрудника" url="empadd.xhtml"/>
+                    <p:divider/>
+                    <p:menuitem value="Просмотр данных" url="empview.xhtml"/>
+                    <p:menuitem value="Редактировать данные" url="empedit.xhtml"/>
+                </p:submenu>
+            </p:menubar>
+        </h:form>
+    </div>
+</ui:composition>

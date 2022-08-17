@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <title>Информационная система</title>
+</h:head>
+<h:body>
+    <ui:include src="template/menu.xhtml" />
+
+    <div class="card">
+        <h:form id="form">
+            <p:growl id="messages" showDetail="true" />
+
+            <p:dataTable id="dt-employees" var="employee" value="#{employeeEditView.employees}"
+                         reflow="true" rowKey="#{employee.id}" paginator="true" rows="10"  paginatorPosition="bottom"
+                         selectionMode="single" selection="#{employeeEditView.selectedEmployee}">
+                <f:facet name="header">
+                    <h:outputText value="Сотрудники" />
+                </f:facet>
+
+
+                <p:column headerText="Название Организации" >
+                    <h:outputText value="#{employee.organization.organizationName}" />
+                </p:column>
+                <p:column headerText="ФИО сотрудника">
+                    <h:outputText value="#{employee.fullName}" />
+                </p:column>
+                <p:column headerText="Должность">
+                    <h:outputText value="#{employee.position}" />
+                </p:column>
+                <p:column headerText="Банковские реквизиты">
+                    <h:outputText value="#{employee.bankAccount}" />
+                </p:column>
+                <p:column headerText="Email адрес" >
+                    <h:outputText value="#{employee.email}" />
+                </p:column>
+
+                <p:column headerText="Адрес" >
+                    <h:outputText value="#{employee.address}" />
+                </p:column>
+
+                <p:column headerText="Домашний телефон" >
+                    <h:outputText value="#{employee.homeTelNumber}" />
+                </p:column>
+
+                <p:column headerText="Мобильный телефон" >
+                    <h:outputText value="#{employee.mobTelNumber}" />
+                </p:column>
+
+                <p:column headerText="Рабочий телефон" >
+                    <h:outputText value="#{employee.workTelNumber}" />
+                </p:column>
+
+                <p:column headerText="Номер телефона" >
+                    <h:outputText value="#{organization.telNumber}" />
+                </p:column>
+                <p:column exportable="false">
+                    <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-employee-content"
+                                     oncomplete="PF('manageEmployeeDialog').show()"
+                                     styleClass="edit-button rounded-button ui-button-success" process="@this">
+                        <f:setPropertyActionListener value="#{employee}" target="#{employeeEditView.selectedEmployee}" />
+                        <p:resetInput target=":dialogs:manage-employee-content" />
+                    </p:commandButton>
+                    <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash" process="@this"
+                                     oncomplete="PF('deleteEmployeeDialog').show()">
+                        <f:setPropertyActionListener value="#{employee}" target="#{employeeEditView.selectedEmployee}"  />
+                    </p:commandButton>
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+
+        <h:form id="dialogs">
+            <p:dialog header="Данные сотрудника" showEffect="fade" modal="true" widgetVar="manageEmployeeDialog"
+                      responsive="true">
+                <p:outputPanel id="manage-employee-content" class="ui-fluid">
+                    <p:outputPanel rendered="#{not empty employeeEditView.selectedEmployee}">
+                        <p:dataScroller value="#{employeeEditView.selectedEmployee}" mode="inline" scrollHeight="500">
+                        <div class="field">
+                            <p:outputLabel for="ename">Фио сотрудника</p:outputLabel>
+                            <p:inputText id="ename" value="#{employeeEditView.selectedEmployee.fullName}" required="true"
+                            requiredMessage="Поле не должно быть пустым!" validatorMessage="Длина поля должна быть не менее 10 символов">
+                            <f:validateLength minimum="10" /></p:inputText>
+                            <p:message for="ename"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="@next" value="Организация"/>
+                            <p:selectOneMenu id="org" value="#{employeeEditView.selectedOrganization}">
+                                <f:selectItem itemLabel="Выберите Организацию"  itemValue="#{employeeEditView.selectedEmployee.organization.organizationName}"/>
+                                <f:selectItems value="#{employeeEditView.organizationMap.keySet()}" var="key"
+                                               itemValue="#{key}" itemLabel="#{key}"/>
+                            </p:selectOneMenu>
+                            <p:message for="org" display="icon"/>
+                        </div>
+
+                        <div class="field">
+                            <p:outputLabel for="@next">Должность</p:outputLabel>
+                            <p:inputText id="pos" value="#{employeeEditView.selectedEmployee.position}" required="true"
+                            requiredMessage="Поле не должно быть пустым!" validatorMessage="Длина поля должна быть не менее 5 символов">
+                            <f:validateLength minimum="5"/></p:inputText>
+                            <p:message for="pos"/>
+
+                        </div>
+
+                        <div class="field">
+                            <p:outputLabel for="@next">Банковские реквизиты</p:outputLabel>
+                            <p:inputText id="bac" value="#{employeeEditView.selectedEmployee.bankAccount}" required="true"
+                            requiredMessage="Поле не должно быть пустым!" validatorMessage="Длина поля должна не менее 9 символов">
+                            <f:validateLength minimum="9"/></p:inputText>
+                            <p:message for="bac"/>
+
+                        </div>
+
+                        <div class="field">
+                            <p:outputLabel for="@next">Email Адрес</p:outputLabel>
+                            <p:inputText id="email" value="#{employeeEditView.selectedEmployee.email}" required="true"
+                            requiredMessage="Поле не должно быть пустым!" validatorMessage="Неверный форма email">
+                                <f:validateRegex
+                                        pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                            </p:inputText>
+                            <p:message for="email" />
+                        </div>
+
+                        <div class="field">
+                            <p:outputLabel for="@next">Адрес</p:outputLabel>
+                            <p:inputText id="address" value="#{employeeEditView.selectedEmployee.address}" required="true"
+                            requiredMessage="Поле не должно быть пустым!"/>
+                            <p:message for="address" />
+
+                        </div>
+
+                        <div class="field">
+                            <p:outputLabel for="@next">Домашний телефон</p:outputLabel>
+                            <p:inputMask  value="#{employeeEditView.selectedEmployee.homeTelNumber}" mask="(0999) 99-99-99" validateMask="true"/>
+                        </div>
+
+                        <div class="field">
+                            <p:outputLabel for="@next">Мобильный телефон</p:outputLabel>
+                            <p:inputMask id="mobtel" required="true" value="#{employeeEditView.selectedEmployee.mobTelNumber}" mask="(0999) 99-99-99" validateMask="true"
+                                         requiredMessage="Поле не должно быть пустым!"/>
+                            <p:message for="mobtel" display="icon"/>
+
+                        </div>
+
+                        <div class="field">
+                            <p:outputLabel for="@next">Рабочий телефон</p:outputLabel>
+                            <p:inputMask id="mob" value="#{employeeEditView.selectedEmployee.workTelNumber}" mask="(0999) 99-99-99" validateMask="true"/>
+                        </div>
+                        </p:dataScroller>
+
+                    </p:outputPanel>
+                </p:outputPanel>
+
+                <f:facet name="footer">
+                    <p:commandButton value="Сохранить" icon="pi pi-check" actionListener="#{employeeEditView.saveEmployee}"
+                                     update="manage-employee-content" process="manage-employee-content @this" />
+                    <p:commandButton value="Отмена" icon="pi pi-times" onclick="PF('manageEmployeeDialog').hide()"
+                                     class="ui-button-secondary" type="button" />
+                </f:facet>
+            </p:dialog>
+
+            <p:confirmDialog widgetVar="deleteEmployeeDialog" showEffect="fade" width="300"
+                             message="Удалить сотрудника?" header="Потверждение" severity="warn">
+                <p:commandButton value="Да" icon="pi pi-check" actionListener="#{employeeEditView.deleteEmployee}"
+                                 process="@this" oncomplete="PF('deleteEmployeeDialog').hide()" />
+                <p:commandButton value="Нет" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                 onclick="PF('deleteEmployeeDialog').hide()" />
+            </p:confirmDialog>
+        </h:form>
+    </div>
+
+</h:body>
+</html>

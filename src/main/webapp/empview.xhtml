@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <title>Информационная система</title>
+</h:head>
+<h:body>
+    <ui:include src="template/menu.xhtml" />
+    <div class="card">
+        <p:dataTable var="emp" value="#{employeeView.employeeList}">
+
+
+
+                <p:column>
+                        <h:outputText styleClass="ml-2" value="#{emp.organization.organizationName}"/>
+                </p:column>
+
+
+            <p:column headerText="ФИО сотрудника">
+                <h:outputText value="#{emp.fullName}" />
+            </p:column>
+            <p:column headerText="Должность">
+                <h:outputText value="#{emp.position}" />
+            </p:column>
+            <p:column headerText="Банковские реквизиты">
+                <h:outputText value="#{emp.bankAccount}" />
+            </p:column>
+            <p:column headerText="Email адрес">
+                <h:outputText value="#{emp.email}" />
+            </p:column>
+            <p:column headerText="Адрес">
+                <h:outputText value="#{emp.address}" />
+            </p:column>
+            <p:column headerText="Домашний телефон">
+                <h:outputText value="#{emp.homeTelNumber}" />
+            </p:column>
+            <p:column headerText="Мобильный телефон">
+                <h:outputText value="#{emp.mobTelNumber}" />
+            </p:column>
+            <p:column headerText="Рабочий телефон">
+                <h:outputText value="#{emp.workTelNumber}" />
+            </p:column>
+        </p:dataTable>
+    </div>
+</h:body>
+</html>

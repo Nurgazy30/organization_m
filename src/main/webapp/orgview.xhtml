@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <title>Информационная система</title>
+</h:head>
+<h:body>
+    <h:form>
+        <ui:include src="template/menu.xhtml" />
+        <div class="card">
+            <p:dataTable  var="organization" value="#{organizationView.organizations}"
+                          paginator="true" rows="10" paginatorPosition="bottom"
+                          selection="#{selectedOrganization}" selectionMode="single" rowKey="#{organization.id}"
+                          sortMode="multiple" stickyHeader="true" id="organizations" >
+                <f:facet name="header">Организации</f:facet>
+                <p:column  headerText="Название Организации" sortBy="#{i18n[organization.organizationName]}">
+                    <h:outputText value="#{organization.organizationName}" />
+                </p:column>
+                <p:column  headerText="Правовая форма">
+                    <h:outputText value="#{text['legalForm.' += organization.legalForm]}" />
+                </p:column>
+                <p:column  headerText="Форма собственности">
+                    <h:outputText value="#{text['propertyForm.' += organization.propertyForm]}" />
+                </p:column>
+                <p:column  headerText="ФИО руководителя">
+                    <h:outputText value="#{organization.directorFullName}" />
+                </p:column>
+                <p:column  headerText="Факс">
+                    <h:outputText value="#{organization.fax}" />
+                </p:column>
+                <p:column  headerText="Телефон">
+                    <h:outputText value="#{organization.telNumber}" />
+                </p:column>
+                <p:column  headerText="Вебсайт">
+                    <h:outputText value="#{organization.website}" />
+                </p:column>
+                <p:column  headerText="Номер лицензии">
+                    <h:outputText value="#{organization.licenseNumber}" />
+                </p:column>
+                <p:column  headerText="Дата получения лицензии">
+                    <h:outputText value="#{organization.licenseDate}" />
+                </p:column>
+                <p:column  headerText="Номер свидетельства">
+                    <h:outputText value="#{organization.registrationNumber}" />
+                </p:column>
+                <p:column  headerText="Дата получения свидетельства">
+                    <h:outputText value="#{organization.registrationDate}" />
+                </p:column>
+                <p:column  headerText="Адрес">
+                    <h:outputText value="#{organization.address}" />
+                </p:column>
+                <p:column  headerText="Файлы для прикрепления">
+                    <p:commandButton update="file_lst" value="Прикрепленные файлы" oncomplete="PF('fileDlg').show()" action="#{organizationView.files}"
+                                     styleClass="edit-button rounded-button ui-button-success" process="@this">
+                        <f:setPropertyActionListener value="#{organization.id}" target="#{organizationView.selectedOrganization}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </div>
+    </h:form>
+    <p:dialog header="Файлы" minHeight="40" width="550" widgetVar="fileDlg" showEffect="fade" modal="true" responsive="true">
+        <p:dataList id="file_lst" value="#{organizationView.fileList}" var="file" >
+            <h:outputText value="#{file.fileName}"/> -
+            <h:form><p:commandButton value="Загрузить" partialSubmit="true">
+                <p:fileDownload value="#{fileDownloadView.download(file)}"/>
+            </p:commandButton></h:form>>
+
+        </p:dataList>
+    </p:dialog>
+</h:body>
+</html>
